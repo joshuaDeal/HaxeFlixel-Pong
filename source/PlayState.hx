@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.sound.FlxSound;
 import flixel.util.FlxColor;
+import flixel.addons.effects.FlxTrail;
 
 class PlayState extends FlxState {
 	private static final PADDLE_SPEED:Int = 10;
@@ -24,6 +25,8 @@ class PlayState extends FlxState {
 	private var beep2:FlxSound = FlxG.sound.load("assets/sounds/low-plip.ogg");
 	private var beep3:FlxSound = FlxG.sound.load("assets/sounds/high-plip.ogg");
 	private var chime:FlxSound = FlxG.sound.load("assets/sounds/chime.ogg");
+	private var ballTrail:FlxTrail;
+	private var ballHasTrail:Bool = false;
 
 	override public function create() {
 		super.create();
@@ -45,6 +48,8 @@ class PlayState extends FlxState {
 		// Add ball to state.
 		ball = new Ball(FlxG.width / 2, FlxG.height / 2);
 		add(ball);
+		// And trail effect for ball.
+		ballTrail = new FlxTrail(ball, null, 5, 8, 0.2, 0.05);
 
 		// Create HUD.
 		hud = new HUD();
@@ -81,6 +86,16 @@ class PlayState extends FlxState {
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
+
+		// Add trail when ball gets faster.
+		if (ball.speed >= Ball.INITIAL_SPEED + Ball.SPEED_INCREMENT && !ballHasTrail && inGame)
+		{
+			add(ballTrail);
+			ballHasTrail = true;
+		} else if (ball.speed == Ball.INITIAL_SPEED && ballHasTrail) {
+			ballHasTrail = false;
+			remove(ballTrail);
+		}
 
 		// Basic paddle1 controls.
 		if (!paddle1Ai) {

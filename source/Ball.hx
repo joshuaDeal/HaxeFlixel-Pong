@@ -7,9 +7,9 @@ import flixel.sound.FlxSound;
 
 class Ball extends FlxSprite {
 	private static final SIZE:Int = 12;
-	private static final INITIAL_SPEED:Int = 200;
-	private static final SPEED_INCREMENT:Int = 100;
-	private var speed:Int = INITIAL_SPEED;
+	public static final INITIAL_SPEED:Int = 200;
+	public static final SPEED_INCREMENT:Int = 100;
+	public var speed:Int = INITIAL_SPEED;
 	private var velocityX:Float;
 	private var velocityY:Float;
 	private var rally:Int;
